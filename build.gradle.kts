@@ -69,7 +69,7 @@ repositories {
     }
   }
 
-  maven("https://squiddev.cc/maven") {
+  maven("https://maven.squiddev.cc") {
     content {
       includeGroup("cc.tweaked")
       includeModule("org.squiddev", "Cobalt")
