@@ -28,6 +28,7 @@ import io.sc3.plethora.api.module.SingletonModuleContainer;
 import io.sc3.plethora.api.reference.ConstantReference;
 import io.sc3.plethora.api.reference.IReference;
 import io.sc3.plethora.core.executor.TaskRunner;
+import io.sc3.plethora.mixin.computercraft.UpgradeDataAccessor;
 import io.sc3.plethora.util.PlayerHelpers;
 
 import javax.annotation.Nonnull;
@@ -80,7 +81,7 @@ public class PocketUpgradeModule implements IPocketUpgrade {
 		MethodRegistry registry = MethodRegistry.instance;
 
 		final Entity entity = pocket.getEntity();
-    if (entity == null) return null;
+		if (entity == null) return null;
 
 		final PocketModuleAccess access = new PocketModuleAccess(pocket, handler);
 		final IModuleContainer container = access.getContainer();
@@ -88,7 +89,8 @@ public class PocketUpgradeModule implements IPocketUpgrade {
 			@Nonnull
 			@Override
 			public IModuleContainer get() throws LuaException {
-				if (!pocket.getUpgrades().containsKey(getUpgradeID())) {
+				var data = pocket.getUpgrade();
+				if (data == null || !getUpgradeID().equals(((UpgradeDataAccessor) (Object) data).getUpgrade().getUpgradeID())) {
 					throw new LuaException("The upgrade is gone");
 				}
 				return container;
